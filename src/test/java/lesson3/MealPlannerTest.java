@@ -1,99 +1,83 @@
 package lesson3;
 
-import org.junit.jupiter.api.AfterAll;
+
+import lesson3.model.ShoppingList;
 import org.junit.jupiter.api.Test;
-
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.Properties;
-
 import static io.restassured.RestAssured.given;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 
 public class MealPlannerTest {
 
-    Properties properties = new Properties();
-
     long date = LocalDate.now().toEpochDay();
-
-    String addId;
-    String deletId;
 
     @Test
     void addDeleteMealTest() {
+        int addId = 0;
+
         try {
-            addId = given()
-                    .queryParam("hash", TestProperties.hash())
-                    .queryParam("apiKey", TestProperties.apiKey())
-                    .queryParam("username", TestProperties.username())
-                    .body("{\n"
-                            + " \"date\": " + date + ",\n"
-                            + " \"slot\": 1,\n"
-                            + " \"position\": 1,\n"
-                            + " \"type\": \"RECIPE\",\n"
-                            + " \"value\": {\n"
-                            + " \"id\": 644953,\n"
-                            + " \"servings\":2,\n"
-                            + " \"title\": \"Goat Cheese Pesto Pizza\", \n"
-                            + " \"imageType\": \"jpg\", \n "
-                            + " }\n"
-                            + "}")
-                    .when()
-                    .post("https://api.spoonacular.com/mealplanner/" + TestProperties.username() + "/items")
-                    .then()
-                    .statusCode(200)
-                    .extract()
-                    .jsonPath()
-                    .get("id")
-                    .toString();
+            addId = new PostToMealPlanBuilder()
+                    .date(date)
+                    .slot(1)
+                    .position(1)
+                    .type("RECIPE")
+                    .value(644953, 2, "Goat Cheese Pesto Pizza", "jpg")
+                    .getId();
         } finally {
-            tearDownAdd();
+            deleteRecipeFromMealPlanner(addId);
         }
     }
 
     @Test
     void addDeleteToShoppingListTest() {
 
+        int deletId = 0;
         try {
-            deletId = given()
-                    .queryParam("hash", TestProperties.hash())
-                    .queryParam("apiKey", TestProperties.apiKey())
-                    .queryParam("username", TestProperties.username())
-                    .body("{\n"
-                            + " \"item\": \"garlic\",\n"
-                            + "\"parse\": true,\n "
-                            + "}")
-                    .when()
-                    .post("https://api.spoonacular.com/mealplanner/" + TestProperties.username() + "/shopping-list/items")
-                    .then()
-                    .statusCode(200)
-                    .extract()
-                    .jsonPath()
-                    .get("id")
-                    .toString();
+            deletId = new AddToShoppingListBuilder()
+                    .item("garlic")
+                    .parse(true)
+                    .getId();
+
+            ShoppingList response = new GetShoppingListBuilder()
+                    .getModel();
+
+            assertThat(hasId(response, deletId), equalTo(true));
+
 
         } finally {
-            tearDownDelete();
+            deleteItemFromShoppingList(deletId);
         }
     }
 
+    boolean hasId(ShoppingList shoppingList, int id){
+        for (var aisle: shoppingList.getAisles()) {
+            for (var item: aisle.getItems()) {
+                if (item.getId() == id)
+                    return true;
+            }
+        }
 
-    void tearDownAdd() {
+        return false;
+    }
+
+    void deleteRecipeFromMealPlanner(int recipeId) {
         given()
                 .queryParam("hash", TestProperties.hash())
                 .queryParam("apiKey", TestProperties.apiKey())
                 .queryParam("username", TestProperties.username())
-                .delete("https://api.spoonacular.com/mealplanner/" + TestProperties.username() + "/items/" + addId)
+                .delete(TestProperties.baseUrl() + TestProperties.mealplanner() + TestProperties.username() +TestProperties.items()+ "/" + recipeId)
                 .then()
                 .statusCode(200);
     }
 
-    void tearDownDelete() {
+    void deleteItemFromShoppingList(int itemId) {
         given()
                 .queryParam("hash", TestProperties.hash())
                 .queryParam("username", TestProperties.username())
                 .queryParam("apiKey", TestProperties.apiKey())
-                .queryParam("id", deletId)
-                .delete("https://api.spoonacular.com/mealplanner/" + TestProperties.username() + "/shopping-list/items/" + deletId)
+                .queryParam("id", itemId)
+                .delete(TestProperties.baseUrl() + TestProperties.mealplanner() + TestProperties.username() + TestProperties.shoppingList() + TestProperties.items()+ "/" + itemId)
                 .then()
                 .statusCode(200);
     }

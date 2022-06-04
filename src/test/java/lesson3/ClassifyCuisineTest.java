@@ -9,10 +9,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class ClassifyCuisineTest {
 
-    @BeforeAll
-    static void setUp() {
-        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
-    }
+
 
     @Test
     void postClassifyCuisine() {

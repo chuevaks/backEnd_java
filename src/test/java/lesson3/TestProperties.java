@@ -36,7 +36,22 @@ public class TestProperties {
     public static String hash() {
         return prop.getProperty("hash");
     }
+
     public static String username() {
         return prop.getProperty("username");
     }
+
+    public static  String shoppingList(){
+        return prop.getProperty("shoppingList");
+    }
+
+    public static  String mealplanner(){
+        return prop.getProperty("mealplanner");
+    }
+
+    public static  String items(){
+        return prop.getProperty("items");
+    }
+
+
 }

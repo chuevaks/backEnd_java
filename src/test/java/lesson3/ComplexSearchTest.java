@@ -10,10 +10,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 public class ComplexSearchTest {
 
-    @BeforeAll
-    static void setUp() {
-        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
-    }
+
 
     @Test
     void getRecipeComplexSearchTest() {

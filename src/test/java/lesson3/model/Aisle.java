@@ -1,0 +1,53 @@
+package lesson3.model;
+
+import com.fasterxml.jackson.annotation.*;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+@JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonPropertyOrder({
+        "aisle",
+        "items"
+})
+public class Aisle {
+
+    @JsonProperty("aisle")
+    private String aisle;
+    @JsonProperty("items")
+    private List<Item> items = null;
+    @JsonIgnore
+    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+
+    @JsonProperty("aisle")
+    public String getAisle() {
+        return aisle;
+    }
+
+    @JsonProperty("aisle")
+    public void setAisle(String aisle) {
+        this.aisle = aisle;
+    }
+
+    @JsonProperty("items")
+    public List<Item> getItems() {
+        return items;
+    }
+
+    @JsonProperty("items")
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
+
+    @JsonAnyGetter
+    public Map<String, Object> getAdditionalProperties() {
+        return this.additionalProperties;
+    }
+
+    @JsonAnySetter
+    public void setAdditionalProperty(String name, Object value) {
+        this.additionalProperties.put(name, value);
+    }
+
+}

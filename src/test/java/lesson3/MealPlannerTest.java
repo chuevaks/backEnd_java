@@ -2,12 +2,14 @@ package lesson3;
 
 
 import lesson3.model.ShoppingList;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import static io.restassured.RestAssured.given;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
+@Disabled("Disabled!")
 public class MealPlannerTest {
 
     long date = LocalDate.now().toEpochDay();

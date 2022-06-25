@@ -7,6 +7,7 @@ import okhttp3.ResponseBody;
 import org.hamcrest.CoreMatchers;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import retrofit2.Response;
 
@@ -14,6 +15,7 @@ import java.io.IOException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
+@Disabled("Disabled!")
 public class DeleteProductTest {
     static ProductControllerApi productControllerApi;
     ProductDto productDto;

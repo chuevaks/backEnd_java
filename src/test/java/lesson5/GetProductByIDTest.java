@@ -6,16 +6,14 @@ import lesson5.model.ProductDto;
 import lombok.SneakyThrows;
 import okhttp3.ResponseBody;
 import org.hamcrest.CoreMatchers;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import retrofit2.Response;
 
 import java.io.IOException;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 
+@Disabled("Disabled!")
 public class GetProductByIDTest {
     static ProductControllerApi productControllerApi;
     ProductDto productDto;

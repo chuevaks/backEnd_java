@@ -2,14 +2,14 @@ package lesson3;
 
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
+@Disabled("Disabled!")
 public class ClassifyCuisineTest {
-
-
 
     @Test
     void postClassifyCuisine() {

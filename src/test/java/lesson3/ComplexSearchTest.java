@@ -3,14 +3,14 @@ package lesson3;
 import io.restassured.RestAssured;
 import io.restassured.path.json.JsonPath;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
+@Disabled("Disabled!")
 public class ComplexSearchTest {
-
-
 
     @Test
     void getRecipeComplexSearchTest() {
